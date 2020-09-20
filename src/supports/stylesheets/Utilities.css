@@ -1,0 +1,120 @@
+:root {
+    --main-light: #8399fe;
+    --main-dark: ;
+    --light: #fff;
+    --dark: ;
+    --secondary:  #00cb8e;
+    --light-grey: #e4e3e3;
+    --grey : #b9b9b9;
+    --warning : #faa816;
+}
+
+/* My Background Color */
+
+.mytetring-bg-main-light {
+    background-color: var(--main-light);
+}
+
+.mytetring-bg-main-dark {
+    background-color: var(--main-dark);
+}
+
+.mytetring-bg-light {
+    background-color: var(--light);
+}
+
+.mytetring-bg-dark {
+    background-color: var(--dark);
+}
+
+.mytetring-bg-secondary {
+    background-color: var(--secondary);
+}
+
+.mytetring-bg-light-grey {
+    background-color: var(--light-grey);
+}
+
+.mytetring-bg-grey {
+    background-color: var(--grey);
+}
+
+.mytetring-bg-warning {
+    background-color: var(--warning);
+}
+
+/* My Font Color */
+
+.mytetring-main-light {
+    color: var(--light);
+}
+
+.mytetring-main-dark {
+    color: var(--main-dark);
+}
+
+.mytetring-light {
+    color: var(--light);
+}
+
+.mytetring-dark {
+    color: var(--dark);
+}
+
+.mytetring-secondary {
+    color: var(--secondary);
+}
+
+.mytetring-light-grey {
+    color: var(--light-grey);
+}
+
+.mytetring-grey {
+    color: var(--grey);
+}
+
+.mytetring-warning {
+    color: var(--warning);
+}
+
+/* My Custom Font Size */
+
+.mytetring-font-size-10 {
+    font-size: 10px;
+}
+
+.mytetring-font-size-12 {
+    font-size: 12px;
+}
+
+.mytetring-font-size-14 {
+    font-size: 14px;
+}
+
+.mytetring-font-size-16 {
+    font-size: 16px;
+}
+
+.mytetring-font-size-18 {
+    font-size: 18px;
+}
+
+.mytetring-font-size-20 {
+    font-size: 20px;
+}
+
+/* My Another Customs */
+
+.mytetring-clickable-element{
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.mytetring-input:focus{
+    outline: none;
+    box-shadow: none;
+}
+
