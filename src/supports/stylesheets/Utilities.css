@@ -46,7 +46,7 @@
 /* My Font Color */
 
 .mytetring-main-light {
-    color: var(--light);
+    color: var(--main-light);
 }
 
 .mytetring-main-dark {
@@ -104,6 +104,15 @@
 }
 
 /* My Another Customs */
+
+.mytetring-link{
+    color: inherit;
+}
+
+.mytetring-link:hover{
+    color: inherit;
+    text-decoration: none;
+}
 
 .mytetring-clickable-element{
     cursor: pointer;

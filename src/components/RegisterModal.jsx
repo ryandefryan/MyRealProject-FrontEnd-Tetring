@@ -14,7 +14,8 @@ export class RegisterModal extends Component {
         seeConfirmPassword : false,
         errorEmailMessage : false,
         errorPasswordMessage : false,
-        anotherErrorMessage :false
+        anotherErrorMessage :false,
+        buttonDisabled : false
     }
 
     onEmailValidation = () => {
@@ -23,8 +24,8 @@ export class RegisterModal extends Component {
         if(email){
             if(!(Validator.isEmail(email))){
                 this.setState({errorEmailMessage : 
-                    <span>
-                        <FontAwesomeIcon icon={faExclamationCircle} /> Email is not valid
+                    <span className="mytetring-font-size-12">
+                        <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Email Is Not Valid
                     </span> 
                 })
             }else{
@@ -32,8 +33,8 @@ export class RegisterModal extends Component {
             }
         }else{
             this.setState({errorEmailMessage : 
-                <span>
-                    <FontAwesomeIcon icon={faExclamationCircle} /> Email must be filled
+                <span className="mytetring-font-size-12">
+                    <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Email Must Be Filled
                 </span> 
             })
         }
@@ -49,28 +50,29 @@ export class RegisterModal extends Component {
                     this.setState({errorPasswordMessage : true})
                 }else{
                     this.setState({errorPasswordMessage : 
-                        <span>
-                            <FontAwesomeIcon icon={faExclamationCircle} /> Password does not match
+                        <span className="mytetring-font-size-12">
+                            <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Password Does Not Match
                         </span>    
                     })
                 }
             }else{
                 this.setState({errorPasswordMessage : 
-                    <span>
-                        <FontAwesomeIcon icon={faExclamationCircle} /> Password have minimum length 8 characters
+                    <span className="mytetring-font-size-12">
+                        <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Password Have Minumum Length 8 Characters
                     </span>
                 })
             }
         }else{
             this.setState({errorPasswordMessage : 
-                <span>
-                    <FontAwesomeIcon icon={faExclamationCircle} /> Password must be filled
+                <span className="mytetring-font-size-12">
+                    <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Password Must Be Filled
                 </span> 
             })
         }
     }
 
     onCreateAccount = () => {
+        this.setState({buttonDisabled : true})
         var email = this.email.value
         var password = this.password.value
         var data = {email, password}
@@ -78,22 +80,28 @@ export class RegisterModal extends Component {
         if((this.state.errorEmailMessage === true) && (this.state.errorPasswordMessage === true)){
             Axios.post(LinkAPI + 'authentic-system/register/', data)
             .then((res) => {
-                console.log(res.message)
-                this.setState({anotherErrorMessage : 
-                    <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
-                        <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Check email to activate account</span>
-                    </UncontrolledAlert>
+                console.log(res)
+                this.setState({
+                    buttonDisabled : false, 
+                    anotherErrorMessage : 
+                        <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
+                            <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Check Email To Activate Account</span>
+                        </UncontrolledAlert>
                 })
                 setTimeout(function(){window.location = '/login'}, 3000)
             })
             .catch((err) => {
-                console.log(err.message)
-                this.setState({anotherErrorMessage : 
-                    <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
-                        <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Your email already exist</span>
-                    </UncontrolledAlert>
+                console.log(err)
+                this.setState({
+                    buttonDisabled : false,
+                    anotherErrorMessage : 
+                        <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
+                            <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Your Email Already Exist</span>
+                        </UncontrolledAlert>
                 })
             })
+        }else{
+            this.setState({buttonDisabled : false})
         }
     }
 
@@ -128,14 +136,14 @@ export class RegisterModal extends Component {
                             </div>
                             <div className="form-group mt-3 mb-3">
                                 <div className="input-group">
-                                    <input type="text" ref={(element) => this.email = element} onChange={this.onEmailValidation} placeholder="Email" className="form-control rounded-0 border-top-0 border-left-0 border-right-0 mytetring-input" required />
+                                    <input type="text" ref={(element) => {this.email = element}} onChange={this.onEmailValidation} placeholder="Email" className="form-control rounded-0 border-top-0 border-left-0 border-right-0 mytetring-input" required />
                                     <div className="input-group-prepend">
                                         <span className="pl-1 pr-1 border-bottom mytetring-clickable-element">
                                             <i><FontAwesomeIcon icon={faUser} className="fa-xs" /></i>   
                                         </span>
                                     </div>
                                 </div>
-                                <div className="mytetring-font-size-14 mytetring-warning">
+                                <div className="mytetring-warning">
                                     {this.state.errorEmailMessage}
                                 </div>
                             </div>
@@ -158,12 +166,12 @@ export class RegisterModal extends Component {
                                         </span>
                                     </div>
                                 </div>
-                                <div className="mytetring-font-size-14 mytetring-warning">
+                                <div className="mytetring-warning">
                                     {this.state.errorPasswordMessage}
                                 </div>
                             </div>
                             <div className="pt-3 pb-5">
-                                <input type="button" value="Create Account" onClick={this.onCreateAccount} className="btn rounded w-100 mytetring-bg-secondary mytetring-light mytetring-input" />
+                                <input type="button" disabled={this.state.buttonDisabled} value={this.state.buttonDisabled? "Sending Data" : "Create Account"} onClick={this.onCreateAccount} className="btn rounded w-100 mytetring-bg-secondary mytetring-light mytetring-input" />
                             </div>
                         </div>
                     </ModalBody>
