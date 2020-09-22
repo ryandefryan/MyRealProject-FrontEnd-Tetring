@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import LinkAPI from './../supports/constants/LinkAPI.js';
+import { Redirect } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { UncontrolledAlert } from 'reactstrap';
@@ -11,7 +12,12 @@ export class Login extends Component {
 
     state = {
         errorMessage : false,
-        alertMessage : false
+        alertMessage : false,
+        redirectStatus : false
+    }
+
+    componentDidMount(){
+        window.scrollTo(0,0)
     }
 
     onUserLogin = () => {
@@ -24,10 +30,15 @@ export class Login extends Component {
             .then((res) => {
                 console.log(res)
 
-                if(res.data.error === false){
-                    alert('Login!')
+                if(res.data.error === true){
+                    this.setState({ errorMessage : 
+                        <span className="mytetring-font-size-12 mytetring-warning">
+                            <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> {res.data.message}
+                        </span>
+                    })
                 }else{
-                    alert('( ! ) Failed To Login')
+                    localStorage.setItem('token', res.data.data.token)
+                    this.setState({redirectStatus : true})
                 }
             })
             .catch((err) => {
@@ -43,18 +54,23 @@ export class Login extends Component {
     }
 
     render() {
+        if(this.state.redirectStatus){
+            return(
+                <Redirect to='/' />
+            )
+        }
         return(
             <div>
                 <div className="mytetring-login-background">
                     {/* LOGIN SECTION */}
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center h-100">
-                            <div className="col-10 col-md-8 px-4 py-3 rounded shadow-lg mytetring-bg-light">
+                            <div className="col-10 col-md-8 mt-5 mt-md-0 px-4 py-3 rounded shadow-lg mytetring-bg-light">
                                 <div className="pt-0 pb-3 text-left">
-                                    <img src={TetringLogo} alt="" width="90px" />
+                                    
                                 </div>
                                 <div className="row">
-                                    <div className="col-12 col-md-6 text-center">
+                                    <div className="col-12 col-md-6 d-none d-md-block text-center">
                                         <img src="https://image.freepik.com/free-vector/flat-illustration-creative-office-business-company_81522-2258.jpg" alt="" width="300px" />
                                     </div>
                                     <div className="col-12 col-md-6">

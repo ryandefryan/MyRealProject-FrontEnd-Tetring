@@ -81,24 +81,18 @@ export class RegisterModal extends Component {
             Axios.post(LinkAPI + 'authentic-system/register/', data)
             .then((res) => {
                 console.log(res)
-                this.setState({
-                    buttonDisabled : false, 
-                    anotherErrorMessage : 
-                        <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
-                            <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Check Email To Activate Account</span>
-                        </UncontrolledAlert>
-                })
-                setTimeout(function(){window.location = '/login'}, 3000)
-            })
-            .catch((err) => {
-                console.log(err)
+
                 this.setState({
                     buttonDisabled : false,
                     anotherErrorMessage : 
                         <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
-                            <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Your Email Already Exist</span>
+                            <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> {res.data.message}</span>
                         </UncontrolledAlert>
                 })
+                setTimeout(function(){window.location = '/login'}, 2000)
+            })
+            .catch((err) => {
+                console.log(err)
             })
         }else{
             this.setState({buttonDisabled : false})

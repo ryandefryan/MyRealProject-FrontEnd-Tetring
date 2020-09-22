@@ -43,6 +43,10 @@
     background-color: var(--warning);
 }
 
+.mytetring-bg-transparant {
+    background-color: #fff;
+}
+
 /* My Font Color */
 
 .mytetring-main-light {
@@ -101,6 +105,14 @@
 
 .mytetring-font-size-20 {
     font-size: 20px;
+}
+
+.mytetring-font-size-30 {
+    font-size: 30px;
+}
+
+.mytetring-font-size-60 {
+    font-size: 60px;
 }
 
 /* My Another Customs */

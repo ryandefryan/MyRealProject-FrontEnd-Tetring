@@ -34,14 +34,14 @@ export class ActivationAccaount extends Component {
                 .then((res) => {
                     console.log(res)
                     this.setState({activationText : 
-                        <div> 
+                        <div className="col-11 col-md-6"> 
                             <h1 className="mytetring-dark">Hi, Tetringers!</h1>
                             <h5 className="font-weight-normal mytetring-dark">You Already Joined With Us, Let's Create Your First Task!</h5>
                             <div className="text-right mytetring-secondary">
                                 <span className="px-1 mytetring-font-size-20">
                                     Let's Go! 
                                 </span> 
-                                <Link to = '/' className="mytetring-link">
+                                <Link to = '/login' className="mytetring-link">
                                     <FontAwesomeIcon icon={faChevronCircleRight} className="fa-2x mytetring-clickable-element" />
                                 </Link>
                             </div>
@@ -67,27 +67,32 @@ export class ActivationAccaount extends Component {
             Axios.post(LinkAPI + 'authentic-system/activation-email-verification/', data)
             .then((res) => {
                 console.log(res)
-                this.setState({buttonDisabled : false, modalOpen : false, activationText : 
-                    <div> 
-                        <h1 className="mytetring-dark">Hi, Tetringers!</h1>
-                        <h5 className="font-weight-normal mytetring-dark">You Already Joined With Us, Let's Create Your First Task!</h5>
-                        <div className="text-right mytetring-secondary">
-                            <span className="px-1 mytetring-font-size-20">
-                                Let's Go! 
-                            </span> 
-                            <Link to = '/' className="mytetring-link">
-                                <FontAwesomeIcon icon={faChevronCircleRight} className="fa-2x mytetring-clickable-element" />
-                            </Link>
+                
+                if(res.data.error === true){
+                    this.setState({buttonDisabled : false, errorActivationEmailVerification : 
+                        <span className="mytetring-font-size-12">
+                            <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> {res.data.message}
+                        </span> 
+                    })
+                }else{
+                    this.setState({buttonDisabled : false, modalOpen : false, activationText : 
+                        <div className="col-11 col-md-6"> 
+                            <h1 className="mytetring-dark">Hi, Tetringers!</h1>
+                            <h5 className="font-weight-normal mytetring-dark">You Already Joined With Us, Let's Create Your First Task!</h5>
+                            <div className="text-right mytetring-secondary">
+                                <span className="px-1 mytetring-font-size-20">
+                                    Let's Go! 
+                                </span> 
+                                <Link to='/login' className="mytetring-link">
+                                    <FontAwesomeIcon icon={faChevronCircleRight} className="fa-2x mytetring-clickable-element" />
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                })
+                    })
+                }
             })
             .catch((err) => {
                 console.log(err)
-                this.setState({buttonDisabled : false, errorActivationEmailVerification : 
-                    <span className="mytetring-font-size-12">
-                        <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Your Account Already Active / Your Code Does Not Match
-                    </span> })
             })
         }else{
             this.setState({buttonDisabled : false, errorActivationEmailVerification : 
