@@ -1,0 +1,7 @@
+.mytetring-page-not-found-background {
+    background-image: url(./../images//Page\ Not\ Found\ 1.jpg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}

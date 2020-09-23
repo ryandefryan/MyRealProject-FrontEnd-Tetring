@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import LinkAPI from './../supports/constants/LinkAPI.js';
-import { Redirect } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { UncontrolledAlert } from 'reactstrap';
 import RegisterModal from '../components/RegisterModal.jsx';
-import TetringLogo from './../supports/images/Tetring Logo.png';
 
 export class Login extends Component {
 
     state = {
         errorMessage : false,
-        alertMessage : false,
-        redirectStatus : false
+        alertMessage : false
     }
 
     componentDidMount(){
@@ -37,8 +34,8 @@ export class Login extends Component {
                         </span>
                     })
                 }else{
-                    localStorage.setItem('token', res.data.data.token)
-                    this.setState({redirectStatus : true})
+                    localStorage.setItem('mytkn', res.data.data.token)
+                    window.location = '/my-tasks'
                 }
             })
             .catch((err) => {
@@ -54,15 +51,10 @@ export class Login extends Component {
     }
 
     render() {
-        if(this.state.redirectStatus){
-            return(
-                <Redirect to='/' />
-            )
-        }
         return(
             <div>
+                {/* LOGIN SECTION */}
                 <div className="mytetring-login-background">
-                    {/* LOGIN SECTION */}
                     <div className="container h-100">
                         <div className="row justify-content-center align-items-center h-100">
                             <div className="col-10 col-md-8 mt-5 mt-md-0 px-4 py-3 rounded shadow-lg mytetring-bg-light">

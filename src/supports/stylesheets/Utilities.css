@@ -7,6 +7,7 @@
     --light-grey: #e4e3e3;
     --grey : #b9b9b9;
     --warning : #faa816;
+    --danger : #FE4A49
 }
 
 /* My Background Color */
@@ -43,8 +44,8 @@
     background-color: var(--warning);
 }
 
-.mytetring-bg-transparant {
-    background-color: #fff;
+.mytetring-bg-danger {
+    background-color: var(--danger);
 }
 
 /* My Font Color */

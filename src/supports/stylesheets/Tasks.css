@@ -1,0 +1,14 @@
+.mytetring-tasks-background {
+    background-image: url(./../images/MainPurple1.svg);
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.mytetring-tasks-content-position {
+    padding-top: 165px;
+}
+
+.mytetring-tasks-lists-position {
+    transition-delay: 0.5s;
+}

@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import Peoples1 from './../supports/images/Peoples1.png';
 import Picture1 from './../supports/images/Img1.png';
 import Feature1 from './../supports/images/111.png'
 
 export class LandingPage extends Component {
 
-    state = {
-        loginStatus : false
+    componentDidMount() {
+        this.onRedirectPages()
+    }
+
+    onRedirectPages = () => {
+        var getToken = localStorage.getItem('mytkn')
+
+        if(getToken){
+            window.location = '/my-tasks'
+        }
     }
 
     render() {
@@ -35,31 +41,30 @@ export class LandingPage extends Component {
                         </div>
                     </div>
                 </div>
+
                 {/* WHY USE TETRING? SECTION */}
-                <div className="pt-5 d-none d-md-block">
-                    <div className="container h-100 py-5">
-                        <div className="row justify-content-center align-items-center">
-                            <div className="col-6 text-center">
-                                <img src={Feature1} alt="Feature Picture 1" width="100%" className="rounded-circle" />
-                            </div>
-                            <div className="col-6">
-                                <h1 className="font-weight-bold mytetring-main-light">Paperless</h1>
-                                <span className="mytetring-font-size-20">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa enim suscipit minus voluptate laborum quia quo consequuntur optio incidunt nemo. Esse quos, nam a accusamus nulla excepturi aut iusto hic.</span>
-                            </div>
-                            <div className="col-6">
-                                <h1 className="font-weight-bold mytetring-main-light">Paperless</h1>
-                                <span className="mytetring-font-size-20">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa enim suscipit minus voluptate laborum quia quo consequuntur optio incidunt nemo. Esse quos, nam a accusamus nulla excepturi aut iusto hic.</span>
-                            </div>
-                            <div className="col-6 text-center">
-                                <img src={Feature1} alt="Feature Picture 1" width="100%" className="rounded-circle" />
-                            </div>
-                            <div className="col-6 text-center">
-                                <img src={Feature1} alt="Feature Picture 1" width="100%" className="rounded-circle" />
-                            </div>
-                            <div className="col-6">
-                                <h1 className="font-weight-bold mytetring-main-light">Paperless</h1>
-                                <span className="mytetring-font-size-20">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsa enim suscipit minus voluptate laborum quia quo consequuntur optio incidunt nemo. Esse quos, nam a accusamus nulla excepturi aut iusto hic.</span>
-                            </div>
+                <div className="container h-100 my-3 py-5">
+                    <div className="row justify-content-center align-items-center">
+                        <div className="col-6 text-center">
+                            <img src={Feature1} alt="Feature 1" width="100%" className="rounded-circle" />
+                        </div>
+                        <div className="col-6">
+                            <h1 className="font-weight-bold mytetring-main-light">Paperless</h1>
+                            <span className="mytetring-font-size-20">This is description</span>
+                        </div>
+                        <div className="col-6">
+                            <h1 className="font-weight-bold mytetring-main-light">Easy Interface</h1>
+                            <span className="mytetring-font-size-20">This is description</span>
+                        </div>
+                        <div className="col-6 text-center">
+                            <img src={Feature1} alt="Feature 2" width="100%" className="rounded-circle" />
+                        </div>
+                        <div className="col-6 text-center">
+                            <img src={Feature1} alt="Feature 3" width="100%" className="rounded-circle" />
+                        </div>
+                        <div className="col-6">
+                            <h1 className="font-weight-bold mytetring-main-light">Jus't By One Click</h1>
+                            <span className="mytetring-font-size-20">This is description</span>
                         </div>
                     </div>
                 </div>
@@ -71,18 +76,18 @@ export class LandingPage extends Component {
                     </div>
                     <div className="row justify-content-center">
                         <div className="col-8 text-center">
-                            <h5 className="font-weight-light font-italic mytetring-font-size-30">" Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum sit inventore, consectetur accusamus quo optio! "</h5>
+                            <h5 className="font-weight-light font-italic mytetring-font-size-30">" Semenjak menggunakan aplikasi Tetring, seluruh pekerjaan saya tercover dengan baik. "</h5>
                         </div>
                     </div>
                     <div className="row justify-content-center align-items-center pt-0 pb-3">
                         <div className="col-4 text-right">
-                            <img src={Picture1} alt="Profil Picture 1" width="25%" className="rounded-circle" />
+                            <img src={Picture1} alt="Profile 1" width="25%" className="rounded-circle" />
                         </div>
                         <div className="col-4 text-center">
-                            <img src={Picture1} alt="Profil Picture 1" width="35%" className="rounded-circle" />
+                            <img src={Picture1} alt="Profile 2" width="35%" className="rounded-circle" />
                         </div>
                         <div className="col-4 text-left">
-                            <img src={Picture1} alt="Profil Picture 1" width="25%" className="rounded-circle" />
+                            <img src={Picture1} alt="Profile 3" width="25%" className="rounded-circle" />
                         </div>
                     </div>
                 </div>

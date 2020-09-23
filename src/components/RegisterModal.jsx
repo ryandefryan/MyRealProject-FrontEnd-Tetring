@@ -14,7 +14,7 @@ export class RegisterModal extends Component {
         seeConfirmPassword : false,
         errorEmailMessage : false,
         errorPasswordMessage : false,
-        anotherErrorMessage :false,
+        alertMessage :false,
         buttonDisabled : false
     }
 
@@ -82,14 +82,24 @@ export class RegisterModal extends Component {
             .then((res) => {
                 console.log(res)
 
-                this.setState({
-                    buttonDisabled : false,
-                    anotherErrorMessage : 
-                        <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
-                            <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> {res.data.message}</span>
-                        </UncontrolledAlert>
-                })
-                setTimeout(function(){window.location = '/login'}, 2000)
+                if(res.data.error === true){
+                    this.setState({
+                        buttonDisabled : false,
+                        alertMessage : 
+                            <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
+                                <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> {res.data.message}</span>
+                            </UncontrolledAlert>
+                    })
+                }else{
+                    this.setState({
+                        buttonDisabled : false,
+                        alertMessage : 
+                            <UncontrolledAlert className="border-0 rounded-0 mytetring-bg-main-light mytetring-light">
+                                <span><FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> {res.data.message}</span>
+                            </UncontrolledAlert>
+                    }) 
+                    setTimeout(function(){window.location = '/login'}, 2000)
+                }
             })
             .catch((err) => {
                 console.log(err)
@@ -126,7 +136,7 @@ export class RegisterModal extends Component {
                                 <h5 className="font-weight-normal mytetring-font-size-14 mytetring-grey">Create every your task with us!</h5>
                             </div>
                             <div>
-                                {this.state.anotherErrorMessage}
+                                {this.state.alertMessage}
                             </div>
                             <div className="form-group mt-3 mb-3">
                                 <div className="input-group">
