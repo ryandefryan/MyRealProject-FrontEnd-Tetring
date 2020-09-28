@@ -15,6 +15,7 @@ export class Login extends Component {
 
     componentDidMount(){
         window.scrollTo(0,0)
+        this.onRedirectPages()
     }
 
     onUserLogin = () => {
@@ -47,6 +48,14 @@ export class Login extends Component {
                     <FontAwesomeIcon icon={faExclamationCircle} className="fa-lg" /> Input Must Be Filled
                 </span>
             })
+        }
+    }
+
+    onRedirectPages = () => {
+        var getToken = localStorage.getItem('mytkn')
+
+        if(getToken){
+            window.location = '/my-tasks'
         }
     }
 

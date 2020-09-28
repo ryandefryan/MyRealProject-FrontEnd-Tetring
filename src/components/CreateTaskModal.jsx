@@ -18,13 +18,15 @@ export class CreateTask extends Component {
         this.setState({buttonDisabled : true})
         var task = this.task.value
         var description = this.description.value
-        var date = this.time.value.split('T')[0]
-        var time = this.time.value
+        var date = this.time.value
+        var time = this.time.value.split('T')[1]
         var token = localStorage.getItem('mytkn')
         var data = {task, description, date, time, token}
 
+        console.log(date)
+
         if(!task || !description || !time){
-            this.setState({errorMessage : 'Input Must Be Filled'})
+            this.setState({buttonDisabled : false, errorMessage : 'Input Must Be Filled'})
         }else{
             Axios.post(LinkAPI + 'my-tasks/create-task', data)
             .then((res) => {

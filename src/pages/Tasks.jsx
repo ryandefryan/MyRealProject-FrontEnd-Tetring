@@ -13,8 +13,10 @@ class MyTasks extends Component {
 
     state = {
         data : null,
+        dataBackupForFiltering : null,
         emailConfirmedMessage : '',
-        alertMessage : false
+        alertMessage : false,
+        filterByClick : ''
     }
 
     componentDidMount() {
@@ -25,7 +27,7 @@ class MyTasks extends Component {
 
     getUserLogedIn = () => {
         var tokenUser = localStorage.getItem('mytkn')
-
+        
         if(!tokenUser){
             window.location = '*'
         }
@@ -61,7 +63,8 @@ class MyTasks extends Component {
         
         .then((res) => {
             console.log(res)
-            this.setState({data : res.data.detail.tasks})
+            
+            this.setState({data : res.data.detail.tasks, dataBackupForFiltering : res.data.detail.tasks, filterByClick : 'All Tasks'})
         })
         .catch((err) => {
             console.log(err)
@@ -70,8 +73,9 @@ class MyTasks extends Component {
 
     onDeleteData = (id) => {
         if(window.confirm('Are You Sure Want To Delete This Task?')){
-            Axios.delete(LinkAPI + 'my-tasks/delete-task/' + id)
-    
+            const token = localStorage.getItem('mytkn')
+
+            Axios.delete(LinkAPI + 'my-tasks/delete-task/' + id + '/' + token)
             .then((res) => {
                 console.log(res)
 
@@ -92,8 +96,9 @@ class MyTasks extends Component {
 
     onUpdateTaskDone = (id) => {
         if(window.confirm('Are You Sure This Task Has Been Done?')){
-            Axios.patch(LinkAPI + 'my-tasks/update-task-done/' + id)
-    
+            const token = localStorage.getItem('mytkn')
+
+            Axios.patch(LinkAPI + 'my-tasks/update-task-done/' + id + '/' + token)
             .then((res) => {
                 console.log(res)
 
@@ -112,15 +117,33 @@ class MyTasks extends Component {
         }
     }
 
+    onFilteringData = (filterBy) => {
+        this.setState({filterByClick : filterBy})
+
+        var filteredData = this.state.dataBackupForFiltering
+        if(filterBy === 'All Tasks'){
+            filteredData = this.state.data.filter((value) => {
+                return value.task !== null
+            })
+        }
+        if(filterBy === 'Done'){
+            filteredData = this.state.data.filter((value) => {
+                return value.status === 0
+            })
+        }
+
+        this.setState({dataBackupForFiltering : filteredData})
+    }
+
     mapDataTasks = () => {
-        return this.state.data.map((value, id) => {
+        return this.state.dataBackupForFiltering.map((value, id) => {
             return(
                 <div className="rounded shadow-lg mt-0 mb-5 px-5 py-5 mytetring-bg-light mytetring-tasks-lists-position">
                     <div className="row">
                         <div className="col-4">
-                            <h1 className="font-weight-light"><Time value={value.time} format="DD" /></h1>
-                            <h1 className="font-weight-light"><Time value={value.time} format="MM" /></h1>
-                            <h1><Time value={value.time} format="YYYY" /></h1>
+                            <h1 className="font-weight-light"><Time value={value.date} format="DD" /><span className="mytetring-font-size-20"> /</span></h1>
+                            <h1 className="font-weight-light"><Time value={value.date} format="MM" /><span className="mytetring-font-size-20"> /</span></h1>
+                            <h1><Time value={value.date} format="YYYY" /></h1>
                         </div>
                         <div className="col-8 border-left px-5">
                             <div className="pt-0 pb-5">
@@ -132,7 +155,7 @@ class MyTasks extends Component {
                                         <div className="col-4 text-right">
                                             {
                                                 value.status === 1?
-                                                    <span><Time value={value.time} format="hh:mm" /> WIB</span>
+                                                    <span><Time value={value.date} format="hh:mm" /> WIB</span>
                                                 :
                                                     <input type="button" value="Done" className="btn rounded-pill shadow-lg py-1 mr-1 mytetring-bg-secondary mytetring-font-size-12 mytetring-light mytetring-input" />
                                             }
@@ -142,16 +165,16 @@ class MyTasks extends Component {
                                 <div>
                                     <span>{value.description}</span>
                                 </div>
-                                <div className="py-3">
-                                    <input type="button" value="Edit" className="btn rounded-pill shadow-lg py-1 mr-1 mytetring-bg-warning mytetring-font-size-12 mytetring-light mytetring-input" />
-                                    <input type="button" value="Delete" onClick={() => this.onDeleteData(value.id)} className="btn rounded-pill shadow-lg py-1 mr-1 mytetring-bg-danger mytetring-font-size-12 mytetring-light mytetring-input" />
-                                    {
-                                        value.status === 1?
+                                {
+                                    value.status === 1?
+                                        <div className="py-3">
+                                            <input type="button" value="Edit" className="btn rounded-pill shadow-lg py-1 mr-1 mytetring-bg-warning mytetring-font-size-12 mytetring-light mytetring-input" />
+                                            <input type="button" value="Delete" onClick={() => this.onDeleteData(value.id)} className="btn rounded-pill shadow-lg py-1 mr-1 mytetring-bg-danger mytetring-font-size-12 mytetring-light mytetring-input" />
                                             <input type="button" value="Done" onClick={() => this.onUpdateTaskDone(value.id)} className="btn rounded-pill shadow-lg py-1 mr-1 mytetring-bg-secondary mytetring-font-size-12 mytetring-light mytetring-input" />
-                                        :
-                                            null
-                                    }
-                                </div>
+                                        </div>
+                                    :
+                                        null
+                                }
                             </div>
                         </div>
                     </div>
@@ -181,9 +204,10 @@ class MyTasks extends Component {
                                     }
                                 </div>
                                 <div className="col-6 h-100 text-right">
-                                    <input type="button" value="Today" className="btn rounded-pill shadow-lg mx-2 mytetring-bg-secondary mytetring-light mytetring-input" />
-                                    <input type="button" value="Upcoming" className="btn rounded-pill shadow-lg mx-2 border-light mytetring-bg-grey mytetring-light mytetring-input" />
-                                    <input type="button" value="Done" className="btn rounded-pill shadow-lg mx-2 border-light mytetring-bg-grey mytetring-light mytetring-input" />
+                                    <input type="button" value="All Tasks" onClick={() => this.onFilteringData('All Tasks')} className={this.state.filterByClick === 'All Tasks'? "btn rounded-pill shadow-lg mx-2 mytetring-bg-secondary mytetring-light mytetring-input" : "btn rounded-pill shadow-lg mx-2 border-light mytetring-bg-grey mytetring-light mytetring-input"} />
+                                    <input type="button" value="Today" onClick={() => this.onFilteringData('Today')} className={this.state.filterByClick === 'Today'? "btn rounded-pill shadow-lg mx-2 mytetring-bg-secondary mytetring-light mytetring-input" : "btn rounded-pill shadow-lg mx-2 border-light mytetring-bg-grey mytetring-light mytetring-input"} />
+                                    <input type="button" value="Upcoming" onClick={() => this.onFilteringData('Upcoming')} className={this.state.filterByClick === 'Upcoming'? "btn rounded-pill shadow-lg mx-2 mytetring-bg-secondary mytetring-light mytetring-input" : "btn rounded-pill shadow-lg mx-2 border-light mytetring-bg-grey mytetring-light mytetring-input"} />
+                                    <input type="button" value="Done" onClick={() => this.onFilteringData('Done')} className={this.state.filterByClick === 'Done'? "btn rounded-pill shadow-lg mx-2 mytetring-bg-secondary mytetring-light mytetring-input" : "btn rounded-pill shadow-lg mx-2 border-light mytetring-bg-grey mytetring-light mytetring-input"} />
                                 </div>
                                 <div className="col-12 pt-3 pb-0">
                                     {
